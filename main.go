@@ -22,13 +22,14 @@ func ParsePKIXPublicKeyPem(publicPem []byte) (interface{}, error) {
 
 func main() {
 	args := os.Args
-	if len(args) != 3 {
-		fmt.Printf("Usage: %s <pub_key_file_path> <port>\n", args[0])
+	if len(args) != 4 {
+		fmt.Printf("Usage: %s <pub_key_file_path> <keyID> <port>\n", args[0])
 		os.Exit(1)
 	}
 
 	filepath := args[1]
-	port := args[2]
+	keyID := args[2]
+	port := args[3]
 
 	pemData, err := os.ReadFile(filepath)
 	if err != nil {
@@ -48,7 +49,7 @@ func main() {
 		Keys: []jose.JSONWebKey{
 			{
 				Key:       pubKey,
-				KeyID:     "test-key",
+				KeyID:     keyID,
 				Algorithm: x509.ECDSA.String(),
 				Use:       "sig",
 			},
